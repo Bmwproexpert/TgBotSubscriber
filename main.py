@@ -31,22 +31,21 @@ def init(config_path: str) -> (str):
         sys.exit(-1)
 
 
-TOKEN, DES_KEY, CAESAR_KEY, FERNET_KEY = init("config.json")
+TOKEN = init("config.json")
 dp = Dispatcher()
 MESSAGE = None
 
 builder = keyboard.ReplyKeyboardBuilder()
-builder.button(text='❓How does it work?')
 builder.button(text='''📖What's included in PREMIUM subscription?''')
-builder.button(text='🔗Channel link')
+builder.button(text='❓How does it work?')
 builder.button(text='📢Reviews')
 builder.button(text='📊Stats')
 builder.button(text='💳Price')
-
+builder.adjust(1,1,1,2)
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    await message.answer("a")
+    await message.answer("a", reply_markup=builder.as_markup())
 
 
 @dp.message(F.text.lower() == 'des шифрование')
