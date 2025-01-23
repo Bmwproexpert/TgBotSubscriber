@@ -1,15 +1,15 @@
 import asyncio
 import logging
 import sys
+import fileinput
 
 import aiogram.types.inline_keyboard_markup
 from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.utils import keyboard
-from aiogram import
 
 import json
 
@@ -43,7 +43,9 @@ builder.button(text='❓How does it work?')
 builder.button(text='📢Reviews')
 builder.button(text='📊Stats')
 builder.button(text='💳Price')
+builder.max_width = 2
 builder.adjust(1,1,1,2)
+
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
@@ -76,7 +78,7 @@ async def reviews_handler(message: Message) -> None:
 @dp.message(F.text == '''📊Stats''')
 async def stats_handler(message: Message) -> None:
     try:
-        await message.answer("Дерево", reply_markup=builder.as_markup())
+        await message.answer_photo(photo=FSInputFile(path="img.png"), reply_markup=builder.as_markup())
     except Exception as e:
         await message.answer(f"Что-то пошло не так ({e})")
 
@@ -85,14 +87,33 @@ async def stats_handler(message: Message) -> None:
 async def price_handler(message: Message) -> None:
     try:
         inline_builder = keyboard.InlineKeyboardBuilder()
-        inline_builder.button(text="sdad", callback_data="rrrr")
-        await message.answer("Дерево", reply_markup=inline_builder.as_markup())
+        inline_builder.button(text="1 month", callback_data="1")
+        inline_builder.button(text="3 month", callback_data="2")
+        inline_builder.button(text="LIFE", callback_data="3")
+        await message.answer(text="Дерево", reply_markup=inline_builder.as_markup())
     except Exception as e:
         await message.answer(f"Что-то пошло не так ({e})")
 
-@dp.callback_query_handler(text="rrrr")
-async def duration_handler(query: CallbackQuery):
-    query
+@dp.callback_query(F.data == "1")
+async def adsdkalsd(call: CallbackQuery):
+    await call.message.edit_text("meow --- 300$ ")
+    keyboard_new = keyboard.InlineKeyboardBuilder()
+    keyboard_new.button(text="BUY", url="vk.com")
+    await call.message.edit_reply_markup(reply_markup=keyboard_new.as_markup())
+
+@dp.callback_query(F.data == "2")
+async def adsdkalsd(call: CallbackQuery):
+    await call.message.edit_text("meow --- 900$ ")
+    keyboard_new = keyboard.InlineKeyboardBuilder()
+    keyboard_new.button(text="BUY", url="vk.com")
+    await call.message.edit_reply_markup(reply_markup=keyboard_new.as_markup())
+
+@dp.callback_query(F.data == "3")
+async def adsdkalsd(call: CallbackQuery):
+    await call.message.edit_text("meow --- 1400$ ")
+    keyboard_new = keyboard.InlineKeyboardBuilder()
+    keyboard_new.button(text="BUY", url="vk.com")
+    await call.message.edit_reply_markup(reply_markup=keyboard_new.as_markup())
 
 
 
