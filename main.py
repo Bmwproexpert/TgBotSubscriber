@@ -48,19 +48,43 @@ async def command_start_handler(message: Message) -> None:
     await message.answer("a", reply_markup=builder.as_markup())
 
 
-@dp.message(F.text.lower() == 'des шифрование')
-async def des_encrypt(message: Message) -> None:
+@dp.message(F.text == '''📖What's included in PREMIUM subscription?''')
+async def what_is_subscribe(message: Message) -> None:
     try:
-        global MESSAGE
-        if MESSAGE is not None:
-            global DES_KEY
-            await message.answer(des.encrypt(DES_KEY, MESSAGE))
-        else:
-            await message.answer("Сначала отправьте текст")
+        await message.answer("Дерево", reply_markup=builder.as_markup())
+    except Exception as e:
+        await message.answer(f"Что-то пошло не так ({e})")
+
+@dp.message(F.text == '''❓How does it work?''')
+async def how_subscribe_work_handler(message: Message) -> None:
+    try:
+        await message.answer("Дерево", reply_markup=builder.as_markup())
     except Exception as e:
         await message.answer(f"Что-то пошло не так ({e})")
 
 
+@dp.message(F.text == '''📢Reviews''')
+async def reviews_handler(message: Message) -> None:
+    try:
+        await message.answer("Дерево", reply_markup=builder.as_markup())
+    except Exception as e:
+        await message.answer(f"Что-то пошло не так ({e})")
+
+
+@dp.message(F.text == '''📊Stats''')
+async def stats_handler(message: Message) -> None:
+    try:
+        await message.answer("Дерево", reply_markup=builder.as_markup())
+    except Exception as e:
+        await message.answer(f"Что-то пошло не так ({e})")
+
+
+@dp.message(F.text == '''💳Price''')
+async def price_handler(message: Message) -> None:
+    try:
+        await message.answer("Дерево", reply_markup=builder.as_markup())
+    except Exception as e:
+        await message.answer(f"Что-то пошло не так ({e})")
 
 # мы получили параметры для бота с помощью init(), а затем запустили опрос, используя dispatcher,
 # тогда для любого сообщения у нас есть несколько обработчиков для их обработки
