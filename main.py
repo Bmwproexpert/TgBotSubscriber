@@ -2,6 +2,7 @@ import asyncio
 import logging
 import sys
 import fileinput
+from operator import truediv
 
 import aiogram.types.inline_keyboard_markup
 from aiogram import Bot, Dispatcher, F
@@ -40,29 +41,32 @@ MESSAGE = None
 builder = keyboard.ReplyKeyboardBuilder()
 builder.button(text='''📖What's included in PREMIUM subscription?''')
 builder.button(text='❓How does it work?')
+builder.button(text='💳Price')
 builder.button(text='📢Reviews')
 builder.button(text='📊Stats')
-builder.button(text='💳Price')
+builder.max_buttons = 2
 builder.max_width = 2
-builder.adjust(1,1,1,2)
+builder.adjust(2,1,2)
+markup = builder.as_markup()
+markup.resize_keyboard = True
 
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    await message.answer("a", reply_markup=builder.as_markup())
+    await message.answer("a", reply_markup=markup)
 
 
 @dp.message(F.text == '''📖What's included in PREMIUM subscription?''')
 async def what_is_subscribe(message: Message) -> None:
     try:
-        await message.answer("Дерево", reply_markup=builder.as_markup())
+        await message.answer("Дерево", reply_markup=markup)
     except Exception as e:
         await message.answer(f"Что-то пошло не так ({e})")
 
 @dp.message(F.text == '''❓How does it work?''')
 async def how_subscribe_work_handler(message: Message) -> None:
     try:
-        await message.answer("Дерево", reply_markup=builder.as_markup())
+        await message.answer("Дерево", reply_markup=markup)
     except Exception as e:
         await message.answer(f"Что-то пошло не так ({e})")
 
@@ -70,7 +74,7 @@ async def how_subscribe_work_handler(message: Message) -> None:
 @dp.message(F.text == '''📢Reviews''')
 async def reviews_handler(message: Message) -> None:
     try:
-        await message.answer("Дерево", reply_markup=builder.as_markup())
+        await message.answer("Дерево", reply_markup=markup)
     except Exception as e:
         await message.answer(f"Что-то пошло не так ({e})")
 
@@ -78,7 +82,7 @@ async def reviews_handler(message: Message) -> None:
 @dp.message(F.text == '''📊Stats''')
 async def stats_handler(message: Message) -> None:
     try:
-        await message.answer_photo(photo=FSInputFile(path="img.png"), reply_markup=builder.as_markup())
+        await message.answer_photo(photo=FSInputFile(path="img.png"), reply_markup=markup)
     except Exception as e:
         await message.answer(f"Что-то пошло не так ({e})")
 
